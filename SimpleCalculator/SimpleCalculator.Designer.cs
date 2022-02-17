@@ -120,6 +120,7 @@
             this.textBox1.Size = new System.Drawing.Size(850, 50);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
             // listView1
             // 
@@ -136,6 +137,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "History";
+            this.columnHeader1.Width = 400;
             // 
             // tableLayoutPanel1
             // 

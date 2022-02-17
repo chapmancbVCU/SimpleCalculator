@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnswerHistory.cs" />
     <Compile Include="SimpleCalculator.cs">
       <SubType>UserControl</SubType>
     </Compile>

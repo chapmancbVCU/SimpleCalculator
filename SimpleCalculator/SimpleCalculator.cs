@@ -22,7 +22,7 @@ namespace SimpleCalculator
     {
         // INSTANCE VARIABLES
         float answer;
-        DataTable data;
+        private List<AnswerHistory> history = new List<AnswerHistory>();
         int opCount;
         float num1;
 
@@ -32,7 +32,8 @@ namespace SimpleCalculator
         public SimpleCalculator()
         {
             InitializeComponent();
-            data = new DataTable();
+            listView1.View = View.Details;
+            listView1.FullRowSelect = true;
         }
 
         /// <summary>
@@ -206,7 +207,12 @@ namespace SimpleCalculator
         public void compute(int opCount)
         {
             string sign = "";
-            switch(opCount)
+            float num2 = float.Parse(textBox1.Text);
+
+
+
+
+            switch (opCount)
             {
                 case 1:
                     answer = num1 - float.Parse(textBox1.Text);
@@ -232,18 +238,25 @@ namespace SimpleCalculator
                     break;
             }
 
-
-            foreach (DataRow row in data.Rows)
-            {
-                string newRow = num1 + "sign" + textBox1.Text.ToString() + "=" + answer;
-                ListViewItem item = new ListViewItem(newRow);
-                for(int i = 1; i < data.Columns.Count; i++)
-                {
-                    item.SubItems.Add(row[i].ToString());
-                }
-                listView1.Items.Add(item);
-            }
+            string newRow = num1 + sign + num2 + "=" + answer.ToString();
+            UpdateListView(newRow);
         }
+        
+        /// <summary>
+        /// Updates listView1 with new row that contains
+        /// num1 [operation] num2 = answer
+        /// </summary>
+        /// <param name="hList"></param>
+        private void UpdateListView(string hList)
+        {
+            // Create new row for ListViewItem.
+            string[] row = { hList };
+            ListViewItem item = new ListViewItem(row);
+            
+            // Insert new item at the top/
+            listView1.Items.Insert(0, item);
+        }
+
 
         /// <summary>
         /// Event handler for decimalButton click.
@@ -276,6 +289,20 @@ namespace SimpleCalculator
         {
             textBox1.Clear();
             opCount = 0;
+        }
+
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+                    (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+
+            if((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
         }
     }
 }
