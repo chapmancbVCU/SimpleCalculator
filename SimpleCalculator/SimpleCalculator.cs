@@ -17,14 +17,22 @@ namespace SimpleCalculator
     /// This class defines the event handlers for each of
     /// the buttons.
     /// </summary>
+
     public partial class SimpleCalculator: UserControl
     {
+        // INSTANCE VARIABLES
+        float answer;
+        DataTable data;
+        int opCount;
+        float num1;
+
         /// <summary>
         /// Default constructor.
         /// </summary>
         public SimpleCalculator()
         {
             InitializeComponent();
+            data = new DataTable();
         }
 
         /// <summary>
@@ -34,7 +42,7 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void numberZeroButton_Click(object sender, EventArgs e)
         {
-
+            textBox1.Text = textBox1.Text + 0;
         }
 
         /// <summary>
@@ -44,7 +52,7 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void numberOneButton_Click(object sender, EventArgs e)
         {
-
+            textBox1.Text = textBox1.Text + 1;
         }
 
         /// <summary>
@@ -54,7 +62,7 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void numberTwoButton_Click(object sender, EventArgs e)
         {
-
+            textBox1.Text = textBox1.Text + 2;
         }
 
         /// <summary>
@@ -64,7 +72,7 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void numberThreeButton_Click(object sender, EventArgs e)
         {
-
+            textBox1.Text = textBox1.Text + 3;
         }
         /// <summary>
         /// Event handler for numberFourButton click.
@@ -73,7 +81,7 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void numberFourButton_Click(object sender, EventArgs e)
         {
-
+            textBox1.Text = textBox1.Text + 4;
         }
 
         /// <summary>
@@ -83,7 +91,7 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void numberFiveButton_Click(object sender, EventArgs e)
         {
-
+            textBox1.Text = textBox1.Text + 5;
         }
 
         /// <summary>
@@ -93,7 +101,7 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void numberSixButton_Click(object sender, EventArgs e)
         {
-
+            textBox1.Text = textBox1.Text + 6;
         }
 
         /// <summary>
@@ -103,7 +111,7 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void numberSevenButton_Click(object sender, EventArgs e)
         {
-
+            textBox1.Text = textBox1.Text + 7;
         }
 
         /// <summary>
@@ -113,7 +121,7 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void numberEightButton_Click(object sender, EventArgs e)
         {
-
+            textBox1.Text = textBox1.Text + 8;
         }
 
         /// <summary>
@@ -123,7 +131,7 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void numberNineButton_Click(object sender, EventArgs e)
         {
-
+            textBox1.Text = textBox1.Text + 9;
         }
 
         /// <summary>
@@ -133,7 +141,10 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void additionOpButton_Click(object sender, EventArgs e)
         {
-
+            num1 = float.Parse(textBox1.Text);
+            textBox1.Clear();
+            textBox1.Focus();
+            opCount = 2;
         }
 
         /// <summary>
@@ -143,7 +154,13 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void subtractionOpButton_Click(object sender, EventArgs e)
         {
-
+            if(textBox1.Text != "")
+            {
+                num1 = float.Parse(textBox1.Text);
+                textBox1.Clear();
+                textBox1.Focus();
+                opCount = 1;
+            }
         }
 
         /// <summary>
@@ -153,7 +170,10 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void multiplicationOpButton_Click(object sender, EventArgs e)
         {
-
+            num1 = float.Parse(textBox1.Text);
+            textBox1.Clear();
+            textBox1.Focus();
+            opCount = 3;
         }
 
         /// <summary>
@@ -163,7 +183,10 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void divisionOpButton_Click(object sender, EventArgs e)
         {
-
+            num1 = float.Parse(textBox1.Text);
+            textBox1.Clear();
+            textBox1.Focus();
+            opCount = 4;
         }
 
         /// <summary>
@@ -173,7 +196,53 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void equalsButton_Click(object sender, EventArgs e)
         {
+            compute(opCount);
+        }
 
+        /// <summary>
+        /// Calculates answer.
+        /// </summary>
+        /// <param name="opCount"></param>
+        public void compute(int opCount)
+        {
+            string sign = "";
+            switch(opCount)
+            {
+                case 1:
+                    answer = num1 - float.Parse(textBox1.Text);
+                    textBox1.Text = answer.ToString();
+                    sign = "-";
+                    break;
+                case 2:
+                    answer = num1 + float.Parse(textBox1.Text);
+                    textBox1.Text = answer.ToString();
+                    sign = "+";
+                    break;
+                case 3:
+                    answer = num1 * float.Parse(textBox1.Text);
+                    textBox1.Text = answer.ToString();
+                    sign = "*";
+                    break;
+                case 4:
+                    answer = num1 / float.Parse(textBox1.Text);
+                    textBox1.Text = answer.ToString();
+                    sign = "/";
+                    break;
+                default:
+                    break;
+            }
+
+
+            foreach (DataRow row in data.Rows)
+            {
+                string newRow = num1 + "sign" + textBox1.Text.ToString() + "=" + answer;
+                ListViewItem item = new ListViewItem(newRow);
+                for(int i = 1; i < data.Columns.Count; i++)
+                {
+                    item.SubItems.Add(row[i].ToString());
+                }
+                listView1.Items.Add(item);
+            }
         }
 
         /// <summary>
@@ -183,7 +252,7 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void decimalButton_Click(object sender, EventArgs e)
         {
-
+            textBox1.Text = textBox1.Text + ".";
         }
 
         /// <summary>
@@ -193,7 +262,9 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void changeSignButton_Click(object sender, EventArgs e)
         {
-
+            // We just multiply the value by -1.
+            answer = -1 * float.Parse(textBox1.Text);
+            textBox1.Text = answer.ToString();
         }
 
         /// <summary>
@@ -203,7 +274,8 @@ namespace SimpleCalculator
         /// <param name="e"></param>
         private void clearButton_Click(object sender, EventArgs e)
         {
-
+            textBox1.Clear();
+            opCount = 0;
         }
     }
 }
