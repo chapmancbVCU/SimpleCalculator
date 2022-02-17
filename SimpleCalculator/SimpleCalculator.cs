@@ -22,7 +22,6 @@ namespace SimpleCalculator
     {
         // INSTANCE VARIABLES
         float answer;
-        private List<AnswerHistory> history = new List<AnswerHistory>();
         int opCount;
         float num1;
 
